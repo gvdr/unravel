@@ -1,13 +1,22 @@
 Package: unravel
-Title: What the Package Does (One Line, Title Case)
+Title: Plots Meaningfull Representations of Complex Networks
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Giulio Valentino",
+           family = "Dalla Riva",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+           email = "me@gvdallariva.net",
+           comment = c(ORCID = "0000-0002-3454-0633"))
+Description: unravel plots opinionated, informative, representations of complex networks, especially food webs. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    ggraph,
+    tidygraph,
+    dplyr,
+    igraph,
+    MASS
+Suggests: 
+    testthat
+RoxygenNote: 7.0.2

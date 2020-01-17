@@ -1,0 +1,99 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# unravel
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
+Hairballs, hairbalss everywhere. Most complex networks are plot in an (arguably) awe-inspiring, questionably informative way. A lot of color (that don't mean anything), a lot of node-links-overlap mess (that is hard to read into), and a lot of force-directed graph layout algorithms that nobody could ever explain me why should they be used a part that "hey, they are cool!".
+
+The result of this is that the graphic parameters of a network representation are almost never meaningful. You don't know what you are looking at.
+
+The same is true also for food webs, that is the domain of my research. I know food webs (well, a little at least), I've been working on food webs for the last 8 years. Yet, if you show me a food web plot I would not "see" anything.
+
+unravel has a radical philosophy that dictates that:
+
+**all graphic elements** (e.g., size, colour, placement) **should mean something**
+
+This means, for example, that the vertical and horizontal position of a node in the plot **must** correspond to something. This, requires domain knowledge (and that's the reason why I started with food webs, but I hope somebody else will help me with other kind of networks).
+
+This also means that if something does not mean anything, it **must not** be used. So, if you can assign a vertical / horizontal position to your nodes based on something you know about the nodes, think twice: do you *reallY* want to plot the network as a hairball? What information will the reader get from your plot? Isn't there a better way of plotting it?
+
+## Installation
+
+unravel is not yet on CRAN. You can install it from GitHub with ease:
+
+```r
+remotes::install_github("gvdr/unravel")
+```
+
+A word about GitHub. GitHub has systematically banned people coming from or living in certain countries: that sucks, and I'm looking for a better place where to transfer the package.
+
+## Example
+
+The main high level plotting function produces a specialised, domain aware, and opinionated version of a `ggraph` plot. That means that (1) it makes decision and (2) if you don't make decision, `unravel` will make decision for you.
+
+```{r example}
+library(unravel)
+library(dplyr)
+## basic example code
+
+data("TuesdayLakes_1984")
+
+TuesdayLakes_1984 %>%
+  plot_foodweb()
+```
+
+Additional graphical elements can be addedd using the `ggraph` (and `ggplot2`) API.
+
+```{r}
+library(viridis)
+library(ggraph)
+
+
+TuesdayLakes_1984 %>%
+  plot_foodweb() +
+  ggtitle("Tuesday Lake 1984") +
+  scale_colour_viridis()
+```
+
+The underlying, more flexible, function is `ggfoodweb()`. It requires both a foodweb and a layout (that is, a matrix with two columns, specifying the x and y position of the specis in the plot). `ggfoodweb()` does not compute the layer for you, nor provides colour and size for the nodes. You can use `tl_oi_layer()` to compute a layout, and `fw_node_{size,colour}()` to define size and colour.
+
+In the following example, we change size and colour with two different centralities, and place the species on the x axis following the order in which they are written in the network (this is usually a very BAD choice).
+
+```{r cars}
+default_layer <- tl_oi_layer(TuesdayLakes_1984, dodge = 0.04)
+
+# we change the first column (horizontal position) to the row number of species
+default_layer[,1] <- 1:nrow(default_layer) 
+
+
+TuesdayLakes_1984 %>%
+  fw_node_colour(tidygraph::centrality_eigen) %>%
+  fw_node_size(tidygraph::centrality_authority) %>%
+  ggfoodweb(default_layer) +
+  # with ggfoodweb() we need to define the axis and guides labels by hand
+  scale_x_continuous(name = "Omnivory Index") +
+  scale_y_continuous(name = "Trophic Level") +
+  guides(size = guide_legend(title="Authority"),
+         colour = guide_colourbar(title="Eigen Centr")) +
+  ggtitle("Tuesday Lake 1984") +
+  scale_colour_viridis()
+```
+
+### Code of Conduct and Contribution
+
+Please note that the 'unravel' project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
