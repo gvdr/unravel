@@ -10,11 +10,14 @@ status](https://travis-ci.org/gvdr/unravel.svg?branch=master)](https://travis-ci
 <!-- badges: end -->
 
 Hairballs, hairbalss everywhere. Most complex networks are plot in an
-(arguably) awe-inspiring, questionably informative way. A lot of color
-(that don’t mean anything), a lot of node-links-overlap mess (that is
-hard to read into), and a lot of force-directed graph layout algorithms
-that nobody could ever explain me why should they be used a part that
-“hey, they are cool\!”.
+(arguably) awe-inspiring, questionably informative way, that we should
+call “a ball of yarn” (Guðmundsdóttir B.
+[Unravel](https://invidio.us/watch?v=WgBbJKiRxmc), in Homogenic. El
+Cortijo, Málaga, Spain. 1997 Sept 22). A lot of color (that don’t mean
+anything), a lot of node-links-overlap mess (that is hard to read into),
+and a lot of force-directed graph layout algorithms that nobody could
+ever explain me why should they be used a part that “hey, they are
+cool\!”.
 
 The result of this is that the graphic parameters of a network
 representation are almost never meaningful. You don’t know what you are
