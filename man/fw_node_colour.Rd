@@ -12,6 +12,8 @@ fw_node_colour(foodweb, colour_fun = tidygraph::centrality_betweenness, ...)
 \item{foodweb}{The food web. It must be in `tbl_graph` format.}
 
 \item{colour_fun}{The **node** function to compute node size (e.g., a centrality metric)}
+
+\item{...}{additional parameters to pass to the function}
 }
 \value{
 a `tbl_graph` with one more variable for the nodes, named `colour`.

@@ -5,6 +5,8 @@
 #' @param dodge The random uniform noise used to scatter the nodes along the horizontal axis (so to avoid overlap).
 #' @return A matrix with two columns (trophic and omnivory) and as many rows as nodes in the foodweb
 #'
+#' @importFrom stats runif
+#'
 #' @export
 #'
 tl_oi_layer <- function(foodweb, dodge=0.08){

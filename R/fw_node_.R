@@ -5,6 +5,7 @@
 #'
 #' @param foodweb The food web. It must be in `tbl_graph` format.
 #' @param size_fun The **node** function to compute node size (e.g., a centrality metric)
+#' @param ... additional parameters to pass to the function
 #' @return a `tbl_graph` with one more variable for the nodes, named `size`.
 #'
 #' @export
@@ -26,6 +27,7 @@ fw_node_size <- function(foodweb,
 #'
 #' @param foodweb The food web. It must be in `tbl_graph` format.
 #' @param colour_fun The **node** function to compute node size (e.g., a centrality metric)
+#' @param ... additional parameters to pass to the function
 #' @return a `tbl_graph` with one more variable for the nodes, named `colour`.
 #'
 #' @export
@@ -47,6 +49,7 @@ fw_node_colour <- function(foodweb,
 #'
 #' @param foodweb The food web. It must be in `tbl_graph` format.
 #' @param colour_fun The **node** function to compute node size (e.g., a centrality metric)
+#' @param ... additional parameters to pass to the function
 #' @return a `tbl_graph` with one more variable for the nodes, named `colour_index`.
 #'
 #' @export

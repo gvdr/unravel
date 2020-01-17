@@ -8,20 +8,23 @@ plot_foodweb(
   foodweb,
   min_node_size = 4,
   max_node_size = 8,
-  max_edge = 1,
-  min_edge = max_edge,
-  dodge = 0.08,
-  size = NULL,
-  size_label = NULL,
-  colour = NULL,
-  colour_label = NULL,
-  user_layer = NULL,
-  x_label = NULL,
-  y_label = NULL
+  max_edge_width = 1,
+  min_edge_width = max_edge_width,
+  dodge = 0.08
 )
 }
 \arguments{
 \item{foodweb}{A foodweb in `tbl_graph` or `igraph` format, with *m* species. The node table must have `size` and `colour` variable.}
+
+\item{min_node_size}{minimum edge width for plotting}
+
+\item{max_node_size}{maximum edge width for plotting}
+
+\item{max_edge_width}{maximum edge width for plotting}
+
+\item{min_edge_width}{minimum edge width for plotting (default equal to `max_edge_with`, which gives a constant width)}
+
+\item{dodge}{The random uniform noise used to scatter the nodes along the horizontal axis (so to avoid overlap).}
 }
 \value{
 A `ggraph` plot.
