@@ -5,6 +5,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/gvdr/unravel.svg?branch=master)](https://travis-ci.org/gvdr/unravel)
 <!-- badges: end -->
 
 Hairballs, hairbalss everywhere. Most complex networks are plot in an

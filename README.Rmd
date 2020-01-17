@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build status](https://travis-ci.org/gvdr/unravel.svg?branch=master)](https://travis-ci.org/gvdr/unravel)
 <!-- badges: end -->
 
 Hairballs, hairbalss everywhere. Most complex networks are plot in an (arguably) awe-inspiring, questionably informative way. A lot of color (that don't mean anything), a lot of node-links-overlap mess (that is hard to read into), and a lot of force-directed graph layout algorithms that nobody could ever explain me why should they be used a part that "hey, they are cool!".
