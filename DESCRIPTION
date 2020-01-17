@@ -1,5 +1,5 @@
 Package: unravel
-Title: Plots Meaningfull Representations of Complex Networks
+Title: Plots Meaningful Representations of Complex Networks
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Giulio Valentino",
