@@ -25,7 +25,11 @@ I know food webs (well, a little at least), I’ve been working on food
 webs for the last 8 years. Yet, if you show me a food web plot I would
 not “see” anything.
 
-unravel has a radical philosophy that dictates that:
+Here comes unravel\!
+
+<img src="man/figures/README-logo.png" height="80">
+
+The radical philosophy of unravel dictates that:
 
 **all graphic elements** (e.g., size, colour, placement) **should mean
 something**
