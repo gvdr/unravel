@@ -9,7 +9,7 @@
 #'
 #' @export
 #'
-tl_oi_layer <- function(foodweb, dodge=0.08){
+tl_oi_layer <- function(foodweb, dodge=0){
 
   # get number of vertices
   n_vert <- igraph::gorder(foodweb)

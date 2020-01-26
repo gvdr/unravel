@@ -9,7 +9,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://travis-ci.org/gvdr/unravel.svg?branch=master)](https://travis-ci.org/gvdr/unravel)
 <!-- badges: end -->
 
-Hairballs, hairbalss everywhere. Most complex networks are plot in an
+Hairballs, hairballs everywhere. Most complex networks are plot in an
 (arguably) awe-inspiring, questionably informative way, that we should
 call “a ball of yarn” (Guðmundsdóttir B.
 [Unravel](https://invidio.us/watch?v=WgBbJKiRxmc), in Homogenic. El
@@ -84,7 +84,7 @@ library(dplyr)
 data("TuesdayLakes_1984")
 
 TuesdayLakes_1984 %>%
-  plot_foodweb()
+  plot_foodweb(dodge = 0.08)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
@@ -100,7 +100,7 @@ library(ggraph)
 
 
 TuesdayLakes_1984 %>%
-  plot_foodweb() +
+  plot_foodweb(dodge = 0.08) +
   ggtitle("Tuesday Lake 1984") +
   scale_colour_viridis()
 ```
@@ -131,7 +131,7 @@ TuesdayLakes_1984 %>%
   fw_node_size(tidygraph::centrality_authority) %>%
   ggfoodweb(default_layer) +
   # with ggfoodweb() we need to define the axis and guides labels by hand
-  scale_x_continuous(name = "Omnivory Index") +
+  scale_x_continuous(name = "Species Index") +
   scale_y_continuous(name = "Trophic Level") +
   guides(size = guide_legend(title="Authority"),
          colour = guide_colourbar(title="Eigen Centr")) +
@@ -139,7 +139,7 @@ TuesdayLakes_1984 %>%
   scale_colour_viridis()
 ```
 
-<img src="man/figures/README-cars-1.png" width="100%" />
+<img src="man/figures/README-ggfoodweb_example-1.png" width="100%" />
 
 ### Code of Conduct and Contribution
 
