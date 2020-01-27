@@ -57,7 +57,7 @@ library(dplyr)
 data("TuesdayLakes_1984")
 
 TuesdayLakes_1984 %>%
-  plot_foodweb()
+  plot_foodweb(dodge = 0.08)
 ```
 
 Additional graphical elements can be addedd using the `ggraph` (and `ggplot2`) API.
@@ -68,7 +68,7 @@ library(ggraph)
 
 
 TuesdayLakes_1984 %>%
-  plot_foodweb() +
+  plot_foodweb(dodge = 0.08) +
   ggtitle("Tuesday Lake 1984") +
   scale_colour_viridis()
 ```
@@ -77,7 +77,7 @@ The underlying, more flexible, function is `ggfoodweb()`. It requires both a foo
 
 In the following example, we change size and colour with two different centralities, and place the species on the x axis following the order in which they are written in the network (this is usually a very BAD choice).
 
-```{r cars}
+```{r ggfoodweb_example}
 default_layer <- tl_oi_layer(TuesdayLakes_1984, dodge = 0.04)
 
 # we change the first column (horizontal position) to the row number of species
@@ -89,7 +89,7 @@ TuesdayLakes_1984 %>%
   fw_node_size(tidygraph::centrality_authority) %>%
   ggfoodweb(default_layer) +
   # with ggfoodweb() we need to define the axis and guides labels by hand
-  scale_x_continuous(name = "Omnivory Index") +
+  scale_x_continuous(name = "Species Index") +
   scale_y_continuous(name = "Trophic Level") +
   guides(size = guide_legend(title="Authority"),
          colour = guide_colourbar(title="Eigen Centr")) +

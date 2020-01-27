@@ -10,7 +10,7 @@ plot_foodweb(
   max_node_size = 8,
   max_edge_width = 1,
   min_edge_width = max_edge_width,
-  dodge = 0.08
+  dodge = 0
 )
 }
 \arguments{

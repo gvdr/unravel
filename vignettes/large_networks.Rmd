@@ -1,0 +1,156 @@
+---
+title: "unravel-ling large networks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{unravel-ling large networks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# WORK IN PROGRESS
+
+Here we will show how to visualize large networks following the `unravel` philosophy. We define a "large network" as any network which node count exceeds a very low threshold, say 40. The claim (citation needed! I know, I know) is that more than 40 nodes on a screen, and their links in a unipartite network, are cognitively hard to handle. We squeeze our eyes and see a "blurred" version of the plotted graph. The trouble is that squeezing and blurring should be an explicit, reproducible, step.
+
+Thus, we do it programmatically.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## The ravelled Mangrove Estuary
+
+We use one of the foodwebs in `igraphdata`.
+
+```{r setup, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidygraph)
+library(unravel)
+library(igraphdata)
+data(foodwebs)
+```
+
+The `mangdry` food web counts 97 nodes and 1491 links (Mangrove Estuary, Dry Season, `r foodwebs$mangdry$Citation`). This is more than 40 nodes. Let's see what it would look like using the default plot.
+
+```{r mangdry_default_plot, fig.height = 5, fig.width=8}
+mangdry <- foodwebs$mangdry %>%
+  as_tbl_graph()
+
+mangdry %>% plot_foodweb()
+```
+
+It is surely messy. And, given the high number of nodes, many of them overlap in the Trophic level - Omnivory index space. If we had to use some dodging, that would be even more messy.
+
+```{r mangdry_dodged_plot, fig.height = 5, fig.width=8}
+mangdry_dodged <- plot_foodweb(mangdry, dodge = 1.5)
+mangdry_dodged
+```
+
+This is very hard to parse, and we can not be sure if we are seeing all the nodes or just a bunch of them
+
+## Unravelling the estuary
+
+The idea is to bin the nodes in the Trophic level - Omnivory index space, so that no more than 40 nodes will be shown.
+
+Let's see the layout we produce by default.
+
+```{r layout_nonbinned}
+mangdry_layout <- tl_oi_layer(mangdry)
+```
+
+Are all the nodes in a unique position?
+
+```{r all_unique}
+mangdry_layout %>%
+  unique() %>%
+  nrow() == igraph::vcount(mangdry)
+```
+
+Yes, they are. We will use ggplot2 `cut_interval()` to produce the binning. Here, we split the Trophic - Omnivory space in a 6 by 6 grid.
+
+```{r binning}
+mangdry_layout_binned <- mangdry_layout
+mangdry_layout_binned[,1] <- cut_interval(mangdry_layout[,1], 6, labels = FALSE)
+mangdry_layout_binned[,2] <- cut_interval(mangdry_layout[,2], 6, labels = FALSE)
+```
+
+Now, we collapse all the nodes that fall in the same bin. Luckily, `tidygraph` helps us in this, using the `to_contracted()` function. At the same time, we also compute the mean position of the nodes for each grid cell, so that we plot the binned nodes in a good place.
+
+```{r contract}
+mangdry_contracted <- mangdry %N>%
+  mutate(x = mangdry_layout[,1],
+         y = mangdry_layout[,2], 
+         xgroup = mangdry_layout_binned[,1],
+         ygroup = mangdry_layout_binned[,2]) %>%
+  group_by(xgroup,ygroup) %>%
+  mutate(x = mean(x),
+         y = mean(y)) %>%
+  convert(to_contracted, x, y, simplify = FALSE) %>% # contract nodes
+  convert(to_simple, remove_loops = FALSE) # merge parallele edges
+```
+
+The number of nodes is now `r igraph::vcount(mangdry_contracted)`, which is less than 40. We are on the good road.
+
+Now, we don't need the original layout anymore (among the other things, it is meant for much larger graph, so it won't work in any case). Let's get the new layout for `mangdry` directly from the graph.
+
+```{r new_layout}
+mangdry_layout_c <- mangdry_contracted %>%
+  as_tibble() %>%
+  select(x,y) %>% # remember, this are the mean for the grid cells
+  as.matrix()
+```
+
+We are almost ready for the new plot. But first, what will the node and edge size mean? Well, it would be good to keep track of how many nodes and edges we have collapsed.
+
+```{r size_and_edgesize}
+library(purrr)
+
+mangdry_contracted <- mangdry_contracted %N>%
+  mutate(size = map_int(.orig_data, nrow)) %>% # how many nodes in the cell?
+  select(size) %E>%
+  mutate(edge_size = map_int(.tidygraph_edge_index, length)) %>% # how many links merged?
+  select(from, to, edge_size)
+```
+
+
+```{r plotting}
+library(ggraph)
+mangdry_contracted_plot <- mangdry_contracted %>%
+  fw_node_colour() %>%
+  ggraph(layout = mangdry_layout_c) +
+  geom_edge_link2(aes(width = edge_size,
+                              alpha = ..index..)) +
+  geom_edge_loop(aes(width = edge_size,), alpha = 0.3, colour = "red") +
+  geom_node_point(aes(colour = colour,
+                              size = size)) +
+  scale_size(name = "n of nodes", range = c(2, 10)) +
+  scale_edge_size(name = "n of links") +
+  scale_color_continuous(name = "betweenness") +
+  scale_edge_alpha(guide = "none",range = c(0.05,0.5)) +
+  theme_graph() +
+  theme(axis.title = element_text(),
+                 axis.line = element_line(arrow = arrow(type = "closed"))
+                 ) +
+  scale_x_continuous(name = "Omnivory Index") +
+  scale_y_continuous(name = "Trophic Level")
+```
+
+Let us see what we have cooked up.
+
+```{r plot_contracted_links, fig.height = 5, fig.width=8}
+mangdry_contracted_plot
+```
+The screen is much less covered in ink, and we can argue that we have roughly the same information we had before.
+
+## Which looks better?
+
+We can compare side by side the two plots contracted and default. Which do you think looks better? Let us know!
+
+```{r comparison, fig.height = 5, fig.width=12}
+library(patchwork)
+
+mangdry_contracted_plot + mangdry_dodged
+```

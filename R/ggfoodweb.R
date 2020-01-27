@@ -23,7 +23,7 @@
 #'
 ggfoodweb <- function(foodweb,
                       layer_foodweb,
-                      dodge=0.08,
+                      dodge=0,
                       max_node_size = 8,
                       min_node_size = 4,
                       max_edge_width = 1,

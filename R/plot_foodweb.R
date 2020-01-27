@@ -22,7 +22,7 @@ plot_foodweb <- function(foodweb,
                          min_node_size = 4, max_node_size = 8,
                          max_edge_width = 1,
                          min_edge_width = max_edge_width,
-                         dodge = 0.08) {
+                         dodge = 0) {
                          #size = NULL, size_label = NULL,
                          #colour = NULL, colour_label = NULL,
                          #user_layer = NULL, x_label = NULL, y_label = NULL

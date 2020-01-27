@@ -4,7 +4,7 @@
 \alias{tl_oi_layer}
 \title{Computes a ggraph layer using the diet indices of the foodweb}
 \usage{
-tl_oi_layer(foodweb, dodge = 0.08)
+tl_oi_layer(foodweb, dodge = 0)
 }
 \arguments{
 \item{foodweb}{A foodweb in `tbl_graph` or `igraph` format.}
