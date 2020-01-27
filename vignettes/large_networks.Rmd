@@ -1,5 +1,7 @@
 ---
 title: "unravel-ling large networks"
+author: "Giulio Valentino Dalla Riva"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{unravel-ling large networks}
@@ -29,8 +31,11 @@ library(ggplot2)
 library(dplyr)
 library(tidygraph)
 library(unravel)
-library(igraphdata)
-data(foodwebs)
+
+if(requireNamespace("igraphdata", quietly = TRUE)){
+ library(igraphdata)
+ data(foodwebs) 
+}
 ```
 
 The `mangdry` food web counts 97 nodes and 1491 links (Mangrove Estuary, Dry Season, `r foodwebs$mangdry$Citation`). This is more than 40 nodes. Let's see what it would look like using the default plot.
@@ -150,7 +155,8 @@ The screen is much less covered in ink, and we can argue that we have roughly th
 We can compare side by side the two plots contracted and default. Which do you think looks better? Let us know!
 
 ```{r comparison, fig.height = 5, fig.width=12}
-library(patchwork)
-
-mangdry_contracted_plot + mangdry_dodged
+if(requireNamespace("patchwork", quietly = TRUE)){
+  library(patchwork)
+  mangdry_contracted_plot + mangdry_dodged
+}
 ```
